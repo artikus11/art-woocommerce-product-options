@@ -1,14 +1,35 @@
 {
-    "name": "art/woocommerce-product-options",
-    "autoload": {
-        "psr-4": {
-            "Art\\WoocommerceProductOptions\\": "scr/"
-        }
-    },
-    "authors": [
-        {
-            "name": "Artem Abramovich"
-        }
-    ],
-    "require": {}
+  "name": "art/woocommerce-product-options",
+  "description": "Plugin.",
+  "license": "GPL-2.0",
+  "keywords": [
+    "art"
+  ],
+  "homepage": "https://github.com/artikus11/art-woocommerce-product-options",
+  "authors": [
+    {
+      "name": "Artem Abramovich",
+      "homepage": "https://wpruse.ru"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Art\\WoocommerceProductOptions\\": "scr/"
+    }
+  },
+  "require-dev": {
+    "squizlabs/php_codesniffer": "^3.7",
+    "wp-coding-standards/wpcs": "^3.0",
+    "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
+    "phpcompatibility/phpcompatibility-wp": "*"
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
+    }
+  },
+  "scripts": {
+    "phpcs": "phpcs --standard=./phpcs.xml",
+    "phpcbf": "phpcbf --standard=./phpcs.xml"
+  }
 }
