@@ -14,8 +14,10 @@
  * WC requires at least: 3.3.0
  * WC tested up to: 5.0
  *
- * Requires PHP: 7.4
- * Requires WP:5.5
+ * Requires PHP: 8.0
+ * Requires WP: 6.0
+ *
+ * Requires Plugins: woocommerce
  *
  * Copyright Artem Abramovich
  */
@@ -48,5 +50,3 @@ if ( ! function_exists( 'awpo' ) ) {
 		return \Art\WoocommerceProductOptions\Main::instance();
 	}
 }
-
-awpo();
