@@ -1,0 +1,14 @@
+{
+    "name": "art/woocommerce-product-options",
+    "autoload": {
+        "psr-4": {
+            "Art\\WoocommerceProductOptions\\": "scr/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Artem Abramovich"
+        }
+    ],
+    "require": {}
+}
