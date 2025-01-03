@@ -14,7 +14,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Art\\WoocommerceProductOptions\\": "scr/"
+      "Art\\WoocommerceProductOptions\\": "scr/php/"
     }
   },
   "require-dev": {
@@ -22,7 +22,7 @@
     "wp-coding-standards/wpcs": "^3.0",
     "dealerdirect/phpcodesniffer-composer-installer": "^1.0",
     "phpcompatibility/phpcompatibility-wp": "*"
-  },
+  },ѣ
   "config": {
     "allow-plugins": {
       "dealerdirect/phpcodesniffer-composer-installer": true
