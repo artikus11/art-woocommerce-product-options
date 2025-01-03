@@ -24,15 +24,29 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
-const AWPO_PLUGIN_DIR   = __DIR__;
-const AWPO_PLUGIN_AFILE = __FILE__;
-const AWPO_PLUGIN_VER   = '1.0.0';
-const AWPO_PLUGIN_NAME  = 'Art WooCommerce Product Options';
-const AWPO_PLUGIN_SLUG  = 'art-woocommerce-product-options';
-const AWPO_PLUGIN_PREFIX  = 'awpo';
+const AWPO_PLUGIN_DIR    = __DIR__;
+const AWPO_PLUGIN_AFILE  = __FILE__;
+const AWPO_PLUGIN_VER    = '1.0.0';
+const AWPO_PLUGIN_NAME   = 'Art WooCommerce Product Options';
+const AWPO_PLUGIN_SLUG   = 'art-woocommerce-product-options';
+const AWPO_PLUGIN_PREFIX = 'awpo';
 
 define( 'AWPO_PLUGIN_URI', untrailingslashit( plugin_dir_url( AWPO_PLUGIN_AFILE ) ) );
 define( 'AWPO_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 
 require AWPO_PLUGIN_DIR . '/vendor/autoload.php';
+
+( new \Art\WoocommerceProductOptions\Main() )->init();
+
+if ( ! function_exists( 'awpo' ) ) {
+	/**
+	 * @return object Main class object.
+	 * @since 1.0.0
+	 */
+	function awpo(): object {
+
+		return \Art\WoocommerceProductOptions\Main::instance();
+	}
+}
+
+awpo();
