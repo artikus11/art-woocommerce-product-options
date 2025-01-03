@@ -16,13 +16,7 @@ class Main {
 	protected Utils $utils;
 
 
-	public function init(): void {
-
-		add_action( 'plugins_loaded', [ $this, 'init_all' ], - PHP_INT_MAX );
-	}
-
-
-	public function init_all(): void {
+	protected function __construct() {
 
 		$this->init_classes();
 		$this->init_hooks();
@@ -42,7 +36,7 @@ class Main {
 			if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
 				\Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility(
 					'custom_order_tables',
-					ACL_PLUGIN_FILE,
+					Utils::get_plugin_basename(),
 					true
 				);
 			}

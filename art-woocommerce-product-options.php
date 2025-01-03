@@ -4,7 +4,7 @@
  * Plugin URI: wpruse.ru
  * Text Domain: art-woocommerce-product-options
  * Domain Path: /languages
- * Description: Длагин для WooCommerce. добавляет дополнтельные опции к товару
+ * Description: Плагин для WooCommerce. добавляет дополнтельные опции к товару
  * Version: 1.0.0
  * Author: Artem Abramovich
  * Author URI: https://wpruse.ru/
@@ -38,8 +38,6 @@ define( 'AWPO_PLUGIN_FILE', plugin_basename( __FILE__ ) );
 
 require AWPO_PLUGIN_DIR . '/vendor/autoload.php';
 
-( new \Art\WoocommerceProductOptions\Main() )->init();
-
 if ( ! function_exists( 'awpo' ) ) {
 	/**
 	 * @return object Main class object.
@@ -50,3 +48,5 @@ if ( ! function_exists( 'awpo' ) ) {
 		return \Art\WoocommerceProductOptions\Main::instance();
 	}
 }
+
+awpo();
