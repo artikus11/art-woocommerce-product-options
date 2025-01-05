@@ -8,7 +8,7 @@ if ( empty( $args ) ) {
 	return;
 }
 
-$options_json = $args['options_json'];
+$options_json = $args['options_json'];  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped.
 
 ?>
 
@@ -16,7 +16,7 @@ $options_json = $args['options_json'];
 	<div
 		class="fieldset-wrapper-content"
 		id="awpo_product_options"
-		data-product_options="<?php echo $options_json; // WPCS: XSS ok.?>"
+		data-product_options="<?php echo $options_json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>"
 	>
 		<fieldset class="fieldset">
 			<div id="awpo_product_options_container">

@@ -57,16 +57,17 @@ class Admin {
 	}
 
 
-	public function save_options( $post_id ) {
+	public function save_options( $post_id ): void {
 
-
-		if ( empty ( $_POST['awpo_options'] ) ) {
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( empty( $_POST['awpo_options'] ) ) {
 			$_POST['awpo_options'] = [];
 		}
 
 		$product = wc_get_product( $post_id );
 
-		$post_data = map_deep( $_POST['awpo_options'], 'sanitize_text_field' );
+		$post_data = map_deep( wp_unslash( (array) $_POST['awpo_options'] ), 'sanitize_text_field' );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		$product->update_meta_data( 'awpo_options', $post_data );
 		$product->save();
