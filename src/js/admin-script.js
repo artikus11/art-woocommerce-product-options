@@ -1,168 +1,164 @@
-( function ( $ ) {
-	"use strict";
+( function( $ ) {
+	'use strict';
 
-	$.widget( "pektsekye.awpoProductOptions", {
+	class AwpoProductOptions {
+		constructor( options ) {
+			/**
+			 * Данные всех опций, сгруппированные по их идентификаторам.
+			 * @type {Object.<Object>}
+			 */
+			this.options_data = options.options_data || {};
 
-		lastOptionId:       0,
-		lastSortOrder:      0,
-		lastValueId:        0,
-		lastValueSortOrder: {},
+			/**
+			 * Массив идентификаторов опций, которые используются для загрузки опций.
+			 * @type {number[]}
+			 * @description Если передан массив `option_ids`, система автоматически загрузит соответствующие опции.
+			 */
+			this.option_ids = options.option_ids || [];
 
+			this.lastOptionId = 0;
+			this.lastSortOrder = 0;
+			this.lastValueId = 0;
+			this.lastValueSortOrder = {};
 
-		_create: function () {
+			Object.assign( this, options );
 
-			$.extend( this, this.options );
+			this.initialize();
+		}
 
-			this._on( {
-				"click button.awpo-delete-option-button":       $.proxy( this.deleteOption, this ),
-				"click button.awpo-add-option-button":          $.proxy( this.addOption, this ),
-				"change select.awpo-option-type-select":        $.proxy( this.onTypeChange, this ),
-				"click button.awpo-add-option-value-button":    $.proxy( this.addRow, this ),
-				"click button.awpo-delete-option-value-button": $.proxy( this.deleteRow, this )
-			} );
+		initialize() {
+			this.bindEvents();
+		}
 
-			$( '.product_options_for_woocommerce_tab' ).click( $.proxy( this.loadOptions, this ) );
-		},
+		bindEvents() {
+			$( document ).on( 'click', 'button.awpo-delete-option-button', ( e ) => this.deleteOption( e ) );
+			$( document ).on( 'click', 'button.awpo-add-option-button', ( e ) => this.addOption( e ) );
+			$( document ).on( 'change', 'select.awpo-option-type-select', ( e ) => this.onTypeChange( e ) );
+			$( document ).on( 'click', 'button.awpo-add-option-value-button', ( e ) => this.addRow( e ) );
+			$( document ).on( 'click', 'button.awpo-delete-option-value-button', ( e ) => this.deleteRow( e ) );
+			$( document ).on( 'click', '.product_options_for_woocommerce_tab', () => this.loadOptions() );
+		}
 
-
-		loadOptions: function () {
+		loadOptions() {
 			if ( this.option_ids && ! this.optionsLoaded ) {
-				const l = this.option_ids.length;
-				for ( let i = 0; i < l; i++ ) {
-					this.addOption( {}, this.option_ids[ i ] );
-				}
+				this.option_ids.forEach( ( id ) => this.addOption( {}, id ) );
 				this.optionsLoaded = true;
 			}
-		},
+		}
 
-
-		addOption: function ( e, optionId ) {
+		addOption( {}, optionId = null ) {
 			let data;
-
 			if ( optionId ) {
-				data    = this.options_data[ optionId ];
-				data.id = data.option_id;
+				data = { ...this.options_data[ optionId ], id: this.options_data[ optionId ].option_id };
 			} else {
-				data            = {};
-				data.id         = this.last_option_id + 1;
-				data.option_id  = -1;
-				data.sort_order = this.last_sort_order + 1;
-				data.required   = 1;
-				this.last_option_id++;
-				this.last_sort_order++;
+				data = {
+					id: ++this.lastOptionId,
+					option_id: -1,
+					sort_order: ++this.lastSortOrder,
+					required: 1,
+				};
 			}
 
 			const template = wp.template( 'awpo-custom-option-base' );
 			$( '#awpo_product_options_container' ).append( template( data ) );
 
 			if ( optionId ) {
-				$( '#awpo_option_' + optionId + '_type' ).val( data.type ).change();
+				$( `#awpo_option_${ optionId }_type` ).val( data.type ).trigger( 'change' );
 			}
-		},
+		}
 
+		addRow( event = {}, id = null, rowData = null ) {
+			if ( ! id ) {
+				const currentElement = $( event.target );
+				const parentId = `#${ currentElement.closest( '.fieldset-inner' ).attr( 'id' ) }`;
+				id = parseInt( $( `${ parentId }_id` ).val(), 10 );
+			}
 
-		onTypeChange: function ( e ) {
-			const currentElement = $( e.target );
-			const group          = currentElement.find( '[value="' + currentElement.val() + '"]' ).closest( 'optgroup' ).attr( 'data-optgroup-name' );
+			let data;
+			if ( rowData ) {
+				data = {
+					...rowData,
+					id,
+					vid: rowData.value_id,
+					price: rowData.price,
+				};
+			} else {
+				data = {
+					id,
+					vid: ++this.lastValueId,
+					value_id: -1,
+					sort_order: ( this.lastValueSortOrder[ id ] = ( this.lastValueSortOrder[ id ] || 0 ) + 1 ),
+				};
+			}
 
+			const template = wp.template( 'custom-option-select-type-row' );
+			$( `#awpo_select_option_type_row_${ id }` ).append( template( data ) );
+		}
+
+		deleteOption( event ) {
+			const optionWrapper = $( event.target ).closest( '.fieldset-wrapper' );
+			optionWrapper.remove();
+		}
+
+		deleteRow( event ) {
+			const row = $( event.target ).closest( 'tr' );
+			row.remove();
+		}
+
+		onTypeChange( event ) {
+			const currentElement = $( event.target );
+			const group = currentElement
+				.find( `[value="${ currentElement.val() }"]` )
+				.closest( 'optgroup' )
+				.attr( 'data-optgroup-name' );
 			if ( ! group ) {
 				return;
 			}
 
-			const parentId = '#' + currentElement.closest( '.fieldset-inner' ).attr( 'id' );
-
-			const id = parseInt( $( parentId + '_id' ).val() );
-
-			const prevGroup = $( parentId + '_group' ).val();
+			const parentId = `#${ currentElement.closest( '.fieldset-inner' ).attr( 'id' ) }`;
+			const id = parseInt( $( `${ parentId }_id` ).val(), 10 );
+			const prevGroup = $( `${ parentId }_group` ).val();
 
 			let data;
-			if ( this.options_data && this.options_data[ id ] ) {
-				data    = $.extend( {}, this.options_data[ id ] );
-				data.id = data.option_id;
-				//data.price = data.price !== 0 ? data.price.toFixed( 2 ) : '';
+			if ( this.options_data?.[ id ] ) {
+				data = {
+					...this.options_data[ id ],
+					id: this.options_data[ id ].option_id,
+					price: ( this.options_data[ id ].price || 0 ).toFixed( 2 ),
+				};
 			} else {
-				data    = {};
-				data.id = id;
+				data = { id };
 			}
 
 			if ( group === prevGroup ) {
 				return;
-			} else if ( prevGroup !== '' ) {
-				$( '#awpo_option_' + id + '_type_' + prevGroup ).remove();
 			}
 
-			const template = wp.template( 'custom-option-' + group + '-type' );
+			if ( prevGroup ) {
+				$( `#awpo_option_${ id }_type_${ prevGroup }` ).remove();
+			}
 
-			$( '#awpo_option_' + id ).append( template( data ) );
+			const template = wp.template( `custom-option-${ group }-type` );
 
-			$( parentId + '_group' ).val( group );
+			$( `#awpo_option_${ id }` ).append( template( data ) );
+
+			$( `${ parentId }_group` ).val( group );
 
 			if ( group === 'select' ) {
-				if ( this.options_data && this.options_data[ id ] && this.options_data[ id ][ 'values' ] ) {
-					const l = this.options_data[ id ][ 'values' ].length;
-					for ( let i = 0; i < l; i++ ) {
-						this.addRow( {}, id, this.options_data[ id ][ 'values' ][ i ] );
-					}
-				} else {
+				const values = this.options_data?.[ id ]?.values || [];
+				values.forEach( ( value ) => this.addRow( {}, id, value ) );
+
+				if ( ! values.length ) {
 					this.addRow( {}, id );
 				}
 			}
-		},
-
-
-		addRow: function ( e, id, rowData ) {
-
-			if ( ! id ) {
-				const currentElement = $( e.target );
-				const parentId       = '#' + currentElement.closest( '.fieldset-inner' ).attr( 'id' );
-				id                   = parseInt( $( parentId + '_id' ).val() );
-			}
-
-			let data;
-
-			if ( rowData ) {
-				data     = $.extend( {}, rowData );
-				data.id  = id;
-				data.vid = data.value_id;
-				//data.price = data.price != 0 ? data.price.toFixed( 2 ) : '';
-			} else {
-				data     = {};
-				data.id  = id;
-				data.vid = this.last_value_id + 1;
-				if ( ! this.last_value_sort_order[ id ] )
-					this.last_value_sort_order[ id ] = 0;
-				data.sort_order = this.last_value_sort_order[ id ] + 1;
-				data.value_id   = -1;
-				this.last_value_id++;
-				this.last_value_sort_order[ id ]++;
-			}
-
-			const template = wp.template( 'custom-option-select-type-row' );
-			$( '#awpo_select_option_type_row_' + id ).append( template( data ) );
-		},
-
-
-		deleteOption: function ( e ) {
-			const optionWrapper = $( e.target ).closest( '.fieldset-wrapper' );
-
-			optionWrapper.remove();
-		},
-
-
-		deleteRow: function ( e ) {
-			const tr = $( e.target ).closest( 'tr' );
-
-			tr.remove();
 		}
+	}
 
+	$( document ).ready( () => {
+		const wrapperOptions = $( '#awpo_product_options' );
+		const options = wrapperOptions.data( 'product_options' );
+
+		new AwpoProductOptions( options );
 	} );
-
-	const config       = {};
-	let wrapperOptions = $( '#awpo_product_options' );
-
-	const options = wrapperOptions.data( 'product_options' );
-
-
-	wrapperOptions.awpoProductOptions( config, options );
-
-} )( jQuery );
+}( jQuery ) );
