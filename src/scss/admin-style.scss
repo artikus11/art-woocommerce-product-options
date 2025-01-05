@@ -8,7 +8,7 @@
       font-size: 12px;
       line-height: 24px;
       background: transparent;
-      padding: 9px 8px 0px 8px;;
+      padding: 9px 8px 0 8px;;
       border: none;
       border-radius: 0;
       margin: 0 0 29px;
@@ -90,6 +90,12 @@
               gap: 8px;
               grid-auto-flow: column;
               margin-bottom: 16px;
+
+              input[type="text"], input[type="number"], input[type="tel"], select {
+                width: 99%;
+                padding-left: 1%;
+                padding-right: 1%;
+              }
             }
 
             .data-table {
@@ -145,7 +151,7 @@
                 }
 
                 td {
-                  input[type="text"] {
+                  input[type="text"], input[type="number"], input[type="tel"] {
                     width: 99%;
                     padding-left: 1%;
                     padding-right: 1%;
