@@ -86,6 +86,10 @@ class Admin {
 
 		$options = $product->get_meta( 'awpo_options' );
 
+		if ( empty( $options ) ) {
+			return '';
+		}
+
 		$last_option_id        = 0;
 		$last_sort_order       = 0;
 		$last_value_id         = 0;
@@ -98,7 +102,7 @@ class Admin {
 				'option_id'  => $option_id,
 				'title'      => $option['title'],
 				'type'       => $option['type'],
-				'required'   => (int) $option['required'],
+				'required'   => ! empty( $option['required'] ) ? (int) $option['required'] : 0,
 				'sort_order' => (int) $option['sort_order'],
 			];
 
@@ -133,10 +137,10 @@ class Admin {
 			}
 		}
 
-		$data['last_option_id']        = $last_option_id;
-		$data['last_sort_order']       = $last_sort_order;
-		$data['last_value_id']         = $last_value_id;
-		$data['last_value_sort_order'] = $last_value_sort_order;
+		$data['lastOptionId']       = $last_option_id;
+		$data['lastSortOrder']      = $last_sort_order;
+		$data['lastValueId']        = $last_value_id;
+		$data['lastValueSortOrder'] = $last_value_sort_order;
 
 		$options_json = wp_json_encode( $data );
 
