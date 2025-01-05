@@ -2,6 +2,8 @@
 
 namespace Art\WoocommerceProductOptions;
 
+use Art\WoocommerceProductOptions\Admin\Admin;
+
 class Main {
 
 	/**
@@ -13,7 +15,13 @@ class Main {
 	/**
 	 * @var \Art\WoocommerceProductOptions\Utils
 	 */
-	protected Utils $utils;
+	public Utils $utils;
+
+
+	/**
+	 * @var \Art\WoocommerceProductOptions\Templater
+	 */
+	protected Templater $templater;
 
 
 	protected function __construct() {
@@ -25,7 +33,12 @@ class Main {
 
 	public function init_classes(): void {
 
-		$this->utils = new Utils();
+		$this->utils     = new Utils();
+		$this->templater = new Templater();
+
+		( new Enqueue( $this ) )->init_hooks();
+
+		( new Admin( $this ) )->init_hooks();
 	}
 
 
@@ -51,5 +64,25 @@ class Main {
 		endif;
 
 		return self::$instance;
+	}
+
+
+	/**
+	 * @return \Art\WoocommerceProductOptions\Templater
+	 */
+	public function get_templater(): Templater {
+
+		return $this->templater;
+	}
+
+
+	/**
+	 * @param  string $template_name
+	 *
+	 * @return string
+	 */
+	public function get_template( string $template_name ): string {
+
+		return $this->get_templater()->get_template( $template_name );
 	}
 }

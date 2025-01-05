@@ -14,7 +14,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "Art\\WoocommerceProductOptions\\": "scr/php/"
+      "Art\\WoocommerceProductOptions\\": "src/php/"
     }
   },
   "require-dev": {

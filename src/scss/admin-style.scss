@@ -1,0 +1,169 @@
+.awpo-options-panel-tab {
+  .actions {
+    margin-bottom: 8px;
+  }
+
+  .options_group {
+    fieldset {
+      font-size: 12px;
+      line-height: 24px;
+      background: transparent;
+      padding: 9px 8px 0px 8px;;
+      border: none;
+      border-radius: 0;
+      margin: 0 0 29px;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+
+    .fieldset {
+      .fieldset-wrapper {
+        border: 1px solid var(--wp-admin-theme-color);
+        border-radius: 2px;
+        margin-bottom: 5px;
+        padding: 0 0 8px 0;
+
+        &--title {
+          background: var(--wp-admin-theme-color);
+          border: 0;
+          display: flex;
+          align-items: center;
+          justify-content: flex-end;
+          margin: 0;
+
+          &::after {
+            content: "";
+            display: table;
+            clear: both;
+          }
+
+
+          .actions {
+            margin-bottom: 0;
+
+            .action-delete {
+              border: none;
+              border-radius: 0;
+              background: none;
+              margin: 0;
+              padding: 6px;
+              box-shadow: none;
+              text-shadow: none;
+              filter: none;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+
+              span {
+                display: none;
+                text-shadow: none;
+              }
+
+              &::before {
+                font: 400 20px/1 dashicons;
+                -webkit-font-smoothing: antialiased;
+                content: '\f182';
+                color: var(--wc-secondary);
+                text-shadow: none;
+              }
+
+            }
+          }
+        }
+
+        &--content {
+          padding: 0;
+
+          fieldset {
+            margin: 0;
+            padding: 0;
+          }
+
+          .fieldset-inner {
+            padding: 0 8px;
+
+            &--option-type {
+              display: grid;
+              gap: 8px;
+              grid-auto-flow: column;
+              margin-bottom: 16px;
+            }
+
+            .data-table {
+              width: 100%;
+              border-collapse: collapse;
+
+              .awpo-delete-option-value-button {
+                border: none;
+                border-radius: 0;
+                background: none;
+                margin: 0;
+                padding: 0 6px;
+                box-shadow: none;
+                text-shadow: none;
+                filter: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                &::before {
+                  font-family: 'dashicons';
+                  font-style: normal;
+                  speak: none;
+                  font-weight: normal;
+                  font-size: 20px;
+                  -webkit-font-smoothing: antialiased;
+                  content: '\f158';
+                  color: #b7b3ad;
+                  text-shadow: none;
+                }
+
+              }
+
+              thead {
+
+                th {
+                  background: #fff;
+                  color: #303030;
+                  font-size: 14px;
+                  font-weight: 600;
+                  text-align: left;
+                  padding: 0 0 0 7px;
+                }
+              }
+
+              tbody {
+                tr {
+                  /*&:nth-child(2n+1) {
+                    td {
+                      background: #fbfaf6;
+                    }
+                  }*/
+                }
+
+                td {
+                  input[type="text"] {
+                    width: 99%;
+                    padding-left: 1%;
+                    padding-right: 1%;
+                  }
+                }
+              }
+
+              td {
+                background: #fff;
+                border-width: 0;
+                padding: 2px 3px;
+                vertical-align: middle;
+              }
+            }
+          }
+        }
+
+      }
+    }
+  }
+}
