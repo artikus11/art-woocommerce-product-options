@@ -21,10 +21,7 @@ module.exports = {
 	devtool:      ! isProduction ? false : false,
 	entry:        {
 		"admin-script":  path.resolve( process.cwd(), 'src/js', 'admin-script.js' ),
-		//"awooc-scripts": path.resolve( process.cwd(), 'src/js', 'awooc-scripts.js' ),
-		//"admin-script":  path.resolve( process.cwd(), 'src/js', 'admin-script.js' ),
-
-		//"awooc-styles":  path.resolve( process.cwd(), 'src/scss', 'awooc-styles.scss' ),
+		"public-script":  path.resolve( process.cwd(), 'src/js', 'public-script.js' ),
 		"admin-style":   path.resolve( process.cwd(), 'src/scss', 'admin-style.scss' ),
 	},
 	output:       {

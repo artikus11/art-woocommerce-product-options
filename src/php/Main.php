@@ -3,6 +3,8 @@
 namespace Art\WoocommerceProductOptions;
 
 use Art\WoocommerceProductOptions\Admin\Admin;
+use Art\WoocommerceProductOptions\Front\Front;
+use Art\WoocommerceProductOptions\Front\Observer;
 
 class Main {
 
@@ -39,6 +41,8 @@ class Main {
 		( new Enqueue( $this ) )->init_hooks();
 
 		( new Admin( $this ) )->init_hooks();
+		( new Front( $this ) )->init_hooks();
+		( new Observer( $this ) )->init_hooks();
 	}
 
 
@@ -84,5 +88,43 @@ class Main {
 	public function get_template( string $template_name ): string {
 
 		return $this->get_templater()->get_template( $template_name );
+	}
+
+
+	public function get_product_options(): ?array {
+
+		$product = wc_get_product();
+
+		if ( empty( $product ) ) {
+			return null;
+		}
+
+		return $product->get_meta( 'awpo_options' );
+	}
+
+
+	public function get_product_options_by_product_id( $product_id ): ?array {
+
+		if ( ! is_object( $product_id ) ) {
+			$product = wc_get_product( $product_id );
+		}
+
+		if ( empty( $product ) ) {
+			return [];
+		}
+
+		return $product->get_meta( 'awpo_options' );
+	}
+
+
+	public function get_product_price(): ?string {
+
+		$product = wc_get_product();
+
+		if ( empty( $product ) ) {
+			return null;
+		}
+
+		return $product->get_price();
 	}
 }
