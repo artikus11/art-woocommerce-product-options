@@ -127,4 +127,16 @@ class Main {
 
 		return $product->get_price();
 	}
+
+
+	public function is_product_sale(): ?string {
+
+		$product = wc_get_product();
+
+		if ( empty( $product ) ) {
+			return null;
+		}
+
+		return $product->is_on_sale();
+	}
 }

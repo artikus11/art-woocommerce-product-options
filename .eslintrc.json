@@ -12,6 +12,10 @@
     "sourceType": "module"
   },
   "rules": {
-    "no-console": 1
+    "no-console": 1,
+    "jsdoc/check-line-alignment": [
+      "warn",
+      "never"
+    ]
   }
 }

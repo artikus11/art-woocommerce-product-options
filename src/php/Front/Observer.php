@@ -65,17 +65,21 @@ class Observer {
 
 	public function validate_cart_data( $passed, $product_id ) {
 
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		// phpcs:disable WordPress.Security.NonceVerification.Recommended
 		if ( ! isset( $_POST['awpo_option'] ) && ! isset( $_GET['add-to-cart'] ) ) {
 			return $passed;
 		}
+
+		$current_options = map_deep( wp_unslash( (array) $_POST['awpo_option'] ), 'sanitize_text_field' );
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
 		$options = $this->main->get_product_options_by_product_id( $product_id );
 
 		if ( empty( $options ) ) {
 			return $passed;
 		}
-
-		$current_options = map_deep( wp_unslash( (array) $_POST['awpo_option'] ), 'sanitize_text_field' );
 
 		foreach ( $options as $key => $option ) {
 			$option_id = (int) $key;
@@ -165,7 +169,7 @@ class Observer {
 	}
 
 
-	public function format_selected_values( $product_id, $selected_values ): array {
+	public function format_selected_values( $product_id, $selected_values ): array { // phpcs:ignore Generic.Metrics.NestingLevel.MaxExceeded
 
 		$options = $this->main->get_product_options_by_product_id( $product_id );
 
@@ -194,19 +198,23 @@ class Observer {
 
 					$value_id = (int) $selected_value;
 
-					if ( isset( $option['values'][ $value_id ] ) ) {
-						$value = $option['values'][ $value_id ]['title'];
-						$price = $option['values'][ $value_id ]['price'];
+					if ( ! isset( $option['values'][ $value_id ] ) ) {
+						break;
 					}
+
+					$value = $option['values'][ $value_id ]['title'];
+					$price = $option['values'][ $value_id ]['price'];
 
 					break;
 				case 'checkbox':
 				case 'multiple':
 					foreach ( (array) $selected_value as $value_id ) {
-						if ( isset( $option['values'][ $value_id ] ) ) {
-							$value .= ( $value !== '' ? ', ' : '' ) . $option['values'][ $value_id ]['title'];
-							$price += (float) $option['values'][ $value_id ]['price'];
+						if ( ! isset( $option['values'][ $value_id ] ) ) {
+							continue;
 						}
+
+						$value .= ( '' !== $value ? ', ' : '' ) . $option['values'][ $value_id ]['title'];
+						$price += (float) $option['values'][ $value_id ]['price'];
 					}
 					break;
 				case 'field':
@@ -214,6 +222,7 @@ class Observer {
 					if ( is_array( $selected_value ) ) {
 						break;
 					}
+
 					$value = $selected_value;
 					break;
 			}

@@ -8,17 +8,17 @@ if ( empty( $args ) ) {
 	return;
 }
 
-$option = $args['option'];
-$id     = $args['id'];
+$option    = $args['option'];
+$option_id = $args['id'];
 
 ?>
 
-<label for="awpo_option_<?php echo esc_attr( $id ); ?>"></label>
+<label for="awpo_option_<?php echo esc_attr( $option_id ); ?>"></label>
 <input
-  type="text"
-  name="awpo_option[<?php echo esc_attr( $id ); ?>]"
-  id="awpo_option_<?php echo esc_attr( $id ); ?>"
-  class="awpo-option"
-  value=""
-  autocomplete="off"
+	type="text"
+	name="awpo_option[<?php echo esc_attr( $option_id ); ?>]"
+	id="awpo_option_<?php echo esc_attr( $option_id ); ?>"
+	class="awpo-option"
+	value=""
+	autocomplete="off"
 >
