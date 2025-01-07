@@ -20,7 +20,7 @@ class Admin {
 
 	public function init_hooks(): void {
 
-		add_filter( 'woocommerce_product_data_tabs', [ $this, 'add_product_tab' ], 99, 1 );
+		add_filter( 'woocommerce_product_data_tabs', [ $this, 'add_product_tab' ], 80, 1 );
 		add_action( 'woocommerce_product_data_panels', [ $this, 'add_tab_fields' ] );
 		add_action( 'woocommerce_process_product_meta', [ $this, 'save_options' ] );
 	}
@@ -28,7 +28,7 @@ class Admin {
 
 	public function add_product_tab( $tabs ) {
 
-		$tabs['product_options_for_woocommerce'] = [
+		$tabs['awpo_product_options'] = [
 			'label'    => 'Дополнительные опции',
 			'target'   => 'awpo_product_options_tab',
 			'class'    => [],

@@ -36,7 +36,7 @@
 			$( document ).on( 'change', 'select.awpo-option-type-select', ( e ) => this.onTypeChange( e ) );
 			$( document ).on( 'click', 'button.awpo-add-option-value-button', ( e ) => this.addRow( e ) );
 			$( document ).on( 'click', 'button.awpo-delete-option-value-button', ( e ) => this.deleteRow( e ) );
-			$( document ).on( 'click', '.product_options_for_woocommerce_tab', () => this.loadOptions() );
+			$( document ).on( 'click', '.awpo_product_options_tab', () => this.loadOptions() );
 		}
 
 		loadOptions() {
