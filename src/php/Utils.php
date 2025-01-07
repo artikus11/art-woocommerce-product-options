@@ -100,4 +100,13 @@ class Utils {
 
 		return constant( 'AWPO_PLUGIN_PREFIX' );
 	}
+
+
+	/**
+	 * @return string
+	 */
+	public static function get_minified_suffix(): string {
+
+		return defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
+	}
 }

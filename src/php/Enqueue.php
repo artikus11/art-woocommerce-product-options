@@ -28,7 +28,7 @@ class Enqueue {
 		if ( is_product() ) {
 			wp_enqueue_script(
 				'awpo-public-script',
-				$this->main->utils->get_plugin_url() . '/assets/js/public-script.js',
+				$this->main->utils->get_plugin_url() . '/assets/js/public-script' . $this->main->utils->get_minified_suffix() . '.js',
 				[
 					'jquery',
 				],
@@ -60,7 +60,7 @@ class Enqueue {
 		if ( 'product' === $current_screen->id && 'product' === $current_screen->post_type ) {
 			wp_enqueue_script(
 				'awpo-admin-script',
-				$this->main->utils->get_plugin_url() . '/assets/js/admin-script.js',
+				$this->main->utils->get_plugin_url() . '/assets/js/admin-script' . $this->main->utils->get_minified_suffix() . '.js',
 				[
 					'jquery',
 					'jquery-ui-widget',
@@ -73,7 +73,7 @@ class Enqueue {
 
 			wp_enqueue_style(
 				'awpo-admin-style',
-				$this->main->utils->get_plugin_url() . '/assets/css/admin-style.css',
+				$this->main->utils->get_plugin_url() . '/assets/css/admin-style' . $this->main->utils->get_minified_suffix() . '.css',
 				[],
 				$this->main->utils->get_plugin_version(),
 			);
