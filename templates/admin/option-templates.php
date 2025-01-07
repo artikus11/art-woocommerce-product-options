@@ -111,7 +111,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 			<input name="awpo_options[{{{data.id}}}][values][{{{data.vid}}}][title]" type="text" value="{{data.title}}" autocomplete="off"/>
 		</td>
 		<td class="col-price select-opt-price">
-			<input name="awpo_options[{{{data.id}}}][values][{{{data.vid}}}][price]" type="number" value="{{data.price}}" autocomplete="off">
+			<input name="awpo_options[{{{data.id}}}][values][{{{data.vid}}}][price]" type="text" value="{{data.price}}" autocomplete="off">
 		</td>
 		<td class="ox-col-sort-order">
 			<input name="awpo_options[{{{data.id}}}][values][{{{data.vid}}}][sort_order]" type="number" value="{{data.sort_order}}" autocomplete="off">
