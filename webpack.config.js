@@ -100,6 +100,8 @@ module.exports = {
 						loader:  'sass-loader',
 						options: {
 							sourceMap: ! isProduction,
+							api: 'modern',
+							implementation: require('sass'),
 						},
 					},
 				],
