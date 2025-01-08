@@ -23,7 +23,7 @@ $option_id = $args['id'];
 		<div class="choice">
 			<input
 				type="checkbox"
-				name="awpo_option[<?php echo esc_attr( $option_id ); ?>][]"
+				name="awpo_option[<?php echo esc_attr( $option_id ); ?>][<?php echo esc_attr( $vid ); ?>]"
 				id="awpo_option_value_<?php echo esc_attr( $vid ); ?>"
 				class="awpo-option"
 				value="<?php echo esc_attr( $vid ); ?>"

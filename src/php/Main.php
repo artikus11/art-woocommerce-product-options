@@ -99,7 +99,7 @@ class Main {
 			return null;
 		}
 
-		return $product->get_meta( 'awpo_options' );
+		return $product->get_meta( 'awpo_options' ) ? $product->get_meta( 'awpo_options' ) : null;
 	}
 
 
@@ -110,10 +110,10 @@ class Main {
 		}
 
 		if ( empty( $product ) ) {
-			return [];
+			return null;
 		}
 
-		return $product->get_meta( 'awpo_options' );
+		return $product->get_meta( 'awpo_options' ) ? $product->get_meta( 'awpo_options' ) : null;
 	}
 
 
