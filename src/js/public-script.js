@@ -130,7 +130,6 @@
 		}
 
 		validate( event ) {
-
 			let firstInvalidInput;
 			let isFormValid = true;
 
@@ -138,7 +137,7 @@
 			this.element.find( '.awpo-required .awpo-required-text' ).remove();
 
 			const requiredText = this.settings.required_text;
-			console.log( event );
+
 			this.element
 				.find( '.awpo-required' )
 				.toArray()
