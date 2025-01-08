@@ -1,4 +1,4 @@
-( function( $ ) {
+﻿( function( $ ) {
 	'use strict';
 
 	/**
@@ -44,11 +44,13 @@
 				this.priceDiv = bdi;
 			}
 
-			this.form = this.element.closest( 'form' );
-
-			this.form.on( 'submit', ( e ) => this.validate( e ) );
-
 			this.element.on( 'change', '.awpo-option', () => this.updatePrice() );
+
+			this.bindEvents();
+		}
+
+		bindEvents() {
+			$( document ).on( 'submit', 'form.cart', ( e ) => this.validate( e ) );
 		}
 
 		updatePrice() {
@@ -128,6 +130,7 @@
 		}
 
 		validate( event ) {
+
 			let firstInvalidInput;
 			let isFormValid = true;
 
@@ -135,7 +138,7 @@
 			this.element.find( '.awpo-required .awpo-required-text' ).remove();
 
 			const requiredText = this.settings.required_text;
-
+			console.log( event );
 			this.element
 				.find( '.awpo-required' )
 				.toArray()
