@@ -4,7 +4,7 @@ namespace Art\WoocommerceProductOptions\Front;
 
 use Art\WoocommerceProductOptions\Main;
 
-class Front {
+class Product {
 
 	/**
 	 * @var \Art\WoocommerceProductOptions\Main

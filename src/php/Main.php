@@ -3,8 +3,8 @@
 namespace Art\WoocommerceProductOptions;
 
 use Art\WoocommerceProductOptions\Admin\Admin;
-use Art\WoocommerceProductOptions\Front\Front;
-use Art\WoocommerceProductOptions\Front\Observer;
+use Art\WoocommerceProductOptions\Front\Cart;
+use Art\WoocommerceProductOptions\Front\Product;
 
 class Main {
 
@@ -41,8 +41,8 @@ class Main {
 		( new Enqueue( $this ) )->init_hooks();
 
 		( new Admin( $this ) )->init_hooks();
-		( new Front( $this ) )->init_hooks();
-		( new Observer( $this ) )->init_hooks();
+		( new Product( $this ) )->init_hooks();
+		( new Cart( $this ) )->init_hooks();
 	}
 
 

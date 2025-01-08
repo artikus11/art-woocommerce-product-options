@@ -4,7 +4,7 @@ namespace Art\WoocommerceProductOptions\Front;
 
 use Art\WoocommerceProductOptions\Main;
 
-class Observer {
+class Cart {
 
 	/**
 	 * @var \Art\WoocommerceProductOptions\Main
@@ -20,7 +20,7 @@ class Observer {
 
 	public function init_hooks(): void {
 
-		add_action( 'woocommerce_add_cart_item_data', [ $this, 'add_options_to_cart_item' ], 10, 3 );
+		add_action( 'woocommerce_add_cart_item_data', [ $this, 'add_options_to_cart_item' ], 1000, 3 );
 		add_filter( 'woocommerce_add_to_cart_validation', [ $this, 'validate_cart_data' ], 10, 2 );
 
 		add_filter( 'woocommerce_get_item_data', [ $this, 'display_fields_on_cart_and_checkout' ], 10, 2 );
@@ -57,7 +57,7 @@ class Observer {
 		$post_data = map_deep( wp_unslash( (array) $_POST['awpo_option'] ), 'sanitize_text_field' );
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
-		$cart_item_data['awpo_option'] = $this->format_selected_values( $product->get_id(), $post_data );
+		$cart_item_data['awpo_option'] = $this->prepared_selected_data( $product->get_id(), $post_data );
 
 		return $cart_item_data;
 	}
@@ -90,7 +90,7 @@ class Observer {
 
 			$required = (bool) $option['required'];
 
-			if ( $required && ( empty( $current_options[ $option_id ] ) || ( is_array( $current_options[ $option_id ] ) && ! $current_options[ $option_id ][0] ) ) ) {
+			if ( $required && ( is_array( $current_options[ $option_id ] ) && ! array_filter( $current_options[ $option_id ] ) ) ) {
 				$passed = false;
 
 				wc_add_notice(
@@ -169,7 +169,7 @@ class Observer {
 	}
 
 
-	public function format_selected_values( $product_id, $selected_values ): array { // phpcs:ignore Generic.Metrics.NestingLevel.MaxExceeded
+	public function prepared_selected_data( $product_id, $selected_values ): array { // phpcs:ignore Generic.Metrics.NestingLevel.MaxExceeded
 
 		$options = $this->main->get_product_options_by_product_id( $product_id );
 
