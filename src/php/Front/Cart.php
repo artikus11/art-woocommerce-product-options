@@ -39,7 +39,7 @@ class Cart {
 		foreach ( $values['awpo_option'] as $field ) {
 
 			if ( ! empty( $field['value'] ) ) {
-				$item->add_meta_data( $field['name'], $this->format_price( $field['value'], $field['price'] ) );
+				$item->add_meta_data( $field['label'], $this->format_price( $field['value'], $field['price'] ) );
 			}
 		}
 	}
@@ -123,7 +123,7 @@ class Cart {
 			}
 
 			$item_data[] = [
-				'key'   => $this->format_price( $field['name'], $field['price'] ),
+				'key'   => $this->format_price( $field['label'], $field['price'] ),
 				'value' => $field['value'],
 			];
 		}
@@ -229,7 +229,7 @@ class Cart {
 
 			if ( $value ) {
 				$formatted_values[] = [
-					'name'  => $option['title'],
+					'label'  => $option['title'],
 					'value' => $value,
 					'price' => $price,
 				];
