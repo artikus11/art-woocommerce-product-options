@@ -75,7 +75,7 @@ class Cart {
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
 		// phpcs:enable WordPress.Security.NonceVerification.Recommended
 
-		$options = $this->main->get_product_options_by_product_id( $product_id );
+		$options = $this->main->get_helper()->get_product_options_by_product_id( $product_id );
 
 		if ( empty( $options ) ) {
 			return $passed;
@@ -161,7 +161,7 @@ class Cart {
 	}
 
 
-	protected function format_price( $text, $price ): string {
+	public function format_price( $text, $price ): string {
 
 		$price = empty( $price ) ? '' : sprintf( ' +%s', wc_price( $price ) );
 
@@ -171,7 +171,7 @@ class Cart {
 
 	public function prepared_selected_data( $product_id, $selected_values ): array { // phpcs:ignore Generic.Metrics.NestingLevel.MaxExceeded
 
-		$options = $this->main->get_product_options_by_product_id( $product_id );
+		$options = $this->main->get_helper()->get_product_options_by_product_id( $product_id );
 
 		if ( empty( $options ) ) {
 			return [];
@@ -229,7 +229,7 @@ class Cart {
 
 			if ( $value ) {
 				$formatted_values[] = [
-					'label'  => $option['title'],
+					'label' => $option['title'],
 					'value' => $value,
 					'price' => $price,
 				];

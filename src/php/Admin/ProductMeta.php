@@ -4,7 +4,7 @@ namespace Art\WoocommerceProductOptions\Admin;
 
 use Art\WoocommerceProductOptions\Main;
 
-class Admin {
+class ProductMeta {
 
 	/**
 	 * @var \Art\WoocommerceProductOptions\Main
@@ -142,8 +142,6 @@ class Admin {
 		$data['lastValueId']        = $last_value_id;
 		$data['lastValueSortOrder'] = $last_value_sort_order;
 
-		$options_json = wp_json_encode( $data );
-
-		return function_exists( 'wc_esc_json' ) ? wc_esc_json( $options_json ) : _wp_specialchars( $options_json, ENT_QUOTES, 'UTF-8', true );
+		return $this->main->get_helper()->get_json( $data );
 	}
 }

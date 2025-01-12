@@ -45,8 +45,8 @@ class Enqueue {
 					'price_num_decimals' => get_option( 'woocommerce_price_num_decimals' ), // Число дробных знаков
 					'price_thousand_sep' => get_option( 'woocommerce_price_thousand_sep' ), // Разделитель тысяч
 					'price_currency_pos' => get_option( 'woocommerce_currency_pos' ), // Позиция валюты
-					'price'              => $this->main->get_product_price(), // Цена
-					'is_sale'            => $this->main->is_product_sale(),
+					'price'              => $this->main->get_helper()->get_product_price(), // Цена
+					'is_sale'            => $this->main->get_helper()->is_product_sale(),
 				]
 			);
 		}

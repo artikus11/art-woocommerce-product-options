@@ -26,7 +26,7 @@ class Product {
 
 	public function display_options(): void {
 
-		$options      = $this->main->get_product_options();
+		$options      = $this->main->get_helper()->get_product_options();
 		$options_json = $this->get_option_data_json();
 
 		if ( empty( $options ) ) {
@@ -48,7 +48,7 @@ class Product {
 
 		$data = [];
 
-		$options = $this->main->get_product_options();
+		$options = $this->main->get_helper()->get_product_options();
 
 		if ( empty( $options ) ) {
 			return '';
@@ -70,8 +70,6 @@ class Product {
 			}
 		}
 
-		$options_json = wp_json_encode( $data );
-
-		return function_exists( 'wc_esc_json' ) ? wc_esc_json( $options_json ) : _wp_specialchars( $options_json, ENT_QUOTES, 'UTF-8', true );
+		return $this->main->get_helper()->get_json( $data );
 	}
 }

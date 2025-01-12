@@ -2,7 +2,7 @@
 
 namespace Art\WoocommerceProductOptions;
 
-use Art\WoocommerceProductOptions\Admin\Admin;
+use Art\WoocommerceProductOptions\Admin\ProductMeta;
 use Art\WoocommerceProductOptions\Front\Cart;
 use Art\WoocommerceProductOptions\Front\Product;
 
@@ -26,6 +26,24 @@ class Main {
 	protected Templater $templater;
 
 
+	/**
+	 * @var \Art\WoocommerceProductOptions\Public\Cart
+	 */
+	protected Cart $cart;
+
+
+	/**
+	 * @var \Art\WoocommerceProductOptions\Public\Product
+	 */
+	protected Product $product;
+
+
+	/**
+	 * @var \Art\WoocommerceProductOptions\Helper
+	 */
+	protected Helper $helper;
+
+
 	protected function __construct() {
 
 		$this->init_classes();
@@ -37,12 +55,16 @@ class Main {
 
 		$this->utils     = new Utils();
 		$this->templater = new Templater();
+		$this->helper    = new Helper();
 
 		( new Enqueue( $this ) )->init_hooks();
+		( new ProductMeta( $this ) )->init_hooks();
 
-		( new Admin( $this ) )->init_hooks();
-		( new Product( $this ) )->init_hooks();
-		( new Cart( $this ) )->init_hooks();
+		$this->product = new Product( $this );
+		$this->product->init_hooks();
+
+		$this->cart = new Cart( $this );
+		$this->cart->init_hooks();
 	}
 
 
@@ -91,52 +113,29 @@ class Main {
 	}
 
 
-	public function get_product_options(): ?array {
+	/**
+	 * @return \Art\WoocommerceProductOptions\Public\Cart
+	 */
+	public function get_cart(): Cart {
 
-		$product = wc_get_product();
-
-		if ( empty( $product ) ) {
-			return null;
-		}
-
-		return $product->get_meta( 'awpo_options' ) ? $product->get_meta( 'awpo_options' ) : null;
+		return $this->cart;
 	}
 
 
-	public function get_product_options_by_product_id( $product_id ): ?array {
+	/**
+	 * @return \Art\WoocommerceProductOptions\Public\Product
+	 */
+	public function get_product(): Product {
 
-		if ( ! is_object( $product_id ) ) {
-			$product = wc_get_product( $product_id );
-		}
-
-		if ( empty( $product ) ) {
-			return null;
-		}
-
-		return $product->get_meta( 'awpo_options' ) ? $product->get_meta( 'awpo_options' ) : null;
+		return $this->product;
 	}
 
 
-	public function get_product_price(): ?string {
+	/**
+	 * @return \Art\WoocommerceProductOptions\Helper
+	 */
+	public function get_helper(): Helper {
 
-		$product = wc_get_product();
-
-		if ( empty( $product ) ) {
-			return null;
-		}
-
-		return $product->get_price();
-	}
-
-
-	public function is_product_sale(): ?string {
-
-		$product = wc_get_product();
-
-		if ( empty( $product ) ) {
-			return null;
-		}
-
-		return $product->is_on_sale();
+		return $this->helper;
 	}
 }
